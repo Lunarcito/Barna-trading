@@ -10,7 +10,7 @@ const OHLCV: React.FC<OHLCVType> = ({ data }) => {
         <div className="col-span-1">
           <div className="text-2xl font-bold mr-4">BTC/USDT</div>
           <div className="flex items-center gap-2">
-            <div className="text-sm">Bitcoin Price</div>
+            <div className="text-sm text-gray-400">Bitcoin Price</div>
             <DropdownMenu />
           </div>
         </div>
@@ -23,19 +23,19 @@ const OHLCV: React.FC<OHLCVType> = ({ data }) => {
           </div>
         </div>
         <div className="my-auto">
-          <div>24h High</div>
+          <div className="text-sm text-gray-400">24h High</div>
           <div className="font-bold">{formatMoney(data?.highPrice)}</div>
         </div>
         <div className="my-auto">
-          <div>24h Low</div>
+          <div className="text-sm text-gray-400">24h Low</div>
           <div className="font-bold">{formatMoney(data?.lowPrice)}</div>
         </div>
         <div className="my-auto">
-          <div>24h Volume(BTC)</div>
+          <div className="text-sm text-gray-400">24h Volume(BTC)</div>
           <div className="font-bold">{formatMoney(data?.tradedBaseVolume)}</div>
         </div>
         <div className="my-auto">
-          <div>24h Volume(BTC)</div>
+          <div className="text-sm text-gray-400">24h Volume(BTC)</div>
           <div className="font-bold">{formatMoney(data?.totalTradedAssetVolume)}</div>
         </div>
       </div>
