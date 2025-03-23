@@ -46,16 +46,16 @@ export default function DropdownMenu() {
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <div className="py-1" role="none">
               <a
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700"
                 role="menuitem"
-                tabIndex="-1"
+                tabIndex={-1}
                 id="menu-item-0"
-                onClick={()=> handleClick("BTC/USDT")}
+                onClick={() => handleClick("BTC/USDT")}
               >
                 BTC/USDT
               </a>
@@ -63,9 +63,9 @@ export default function DropdownMenu() {
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700"
                 role="menuitem"
-                tabIndex="-1"
+                tabIndex={-1}
                 id="menu-item-1"
-                onClick={()=> handleClick("ETH/USDT")}
+                onClick={() => handleClick("ETH/USDT")}
               >
                 ETH/USDT
               </a>
@@ -73,9 +73,9 @@ export default function DropdownMenu() {
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700"
                 role="menuitem"
-                tabIndex="-1"
+                tabIndex={-1}
                 id="menu-item-2"
-                onClick={()=> handleClick("SOL/USDT")}
+                onClick={() => handleClick("SOL/USDT")}
               >
                 SOL/USDT
               </a>
@@ -84,9 +84,9 @@ export default function DropdownMenu() {
                   type="submit"
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700"
                   role="menuitem"
-                  tabIndex="-1"
+                  tabIndex={-1}
                   id="menu-item-3"
-                  onClick={()=> handleClick("ADA/USDT")}
+                  onClick={() => handleClick("ADA/USDT")}
                 >
                   ADA/USDT
                 </button>
