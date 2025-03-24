@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Barna Trading
 
-## Getting Started
+Barna Trading is a real-time cryptocurrency trading dashboard that allows users to view live market data, including OHLCV (Open, High, Low, Close, Volume) data, order book information, and interactive candlestick charts for selected trading pairs. This app pulls data from the Binance API to provide real-time updates on market conditions.
 
-First, run the development server:
+Features
 
-```bash
+Real-time market data: Displays up-to-date OHLCV data, price changes, and 24h trading volumes for supported trading pairs.
+
+Order Book: Shows the live order book (asks and bids) for selected trading pairs.
+
+Candlestick Chart: Visualizes price movements using candlestick charts.
+
+Error handling: Displays error messages when data fails to load.
+
+WebSocket integration: Maintains a WebSocket connection to receive real-time updates for price changes and order book changes.
+
+Technologies Used:
+
+React: Frontend framework for building the user interface.
+
+TypeScript: Static typing for better code reliability and tooling.
+
+Binance API: Fetches real-time market data and order book updates.
+
+WebSockets: Real-time data streaming from Binance for live price and order updates.
+
+Tailwind CSS: Utility-first CSS framework for styling the UI.
+
+Setup
+
+Clone the repository:
+
+git clone https://github.com/your-username/barna-trading.git
+cd barna-trading
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and go to http://localhost:3000 to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Supported Trading Pairs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Bitcoin/USDT (BTC/USDT)
 
-## Learn More
+Ethereum/USDT (ETH/USDT)
 
-To learn more about Next.js, take a look at the following resources:
+Solana/USDT (SOL/USDT)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Cardano/USDT (ADA/USDT)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You can select any of these pairs from the dropdown menu to view the corresponding market data.
 
-## Deploy on Vercel
+Error Handling
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If there is an issue with fetching the data or connecting to WebSocket streams, an error message will be displayed at the top of the page, providing feedback to the user.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+WebSocket Reconnection
+
+The app automatically handles WebSocket disconnections and attempts to reconnect to maintain continuous real-time updates.
