@@ -1,33 +1,53 @@
 "use client";
 
 import OHLCV from "./components/OHLCV/OHLCV";
-import { createOHLCV, OHLCVType, emptyOHLCV } from "./components/OHLCV/OHLCVType";
+import {
+  createOHLCV,
+  OHLCVType,
+  emptyOHLCV,
+} from "./components/OHLCV/OHLCVType";
 import OrderBook from "./components/OrderBook/OrderBook";
-import { OrderBookType, createOrderBook } from "./components/OrderBook/OrderBookType";
+import {
+  OrderBookType,
+  createOrderBook,
+} from "./components/OrderBook/OrderBookType";
 import useWebSocket from "./Network/UseWebSocket";
 import { useEffect, useState, useCallback } from "react";
 import { emptyTrading, TradingPairType } from "./Models/TradingPairType";
 import DropdownMenu from "./components/DropdownMenu/DropdownMenu";
 import ChartComponent from "./components/CandleStick/CandleStick";
-import { CandlestickType, convertDate, KlineType } from "./components/CandleStick/CandleStickType";
+import {
+  CandlestickType,
+  convertDate,
+  KlineType,
+} from "./components/CandleStick/CandleStickType";
 
 async function getuiKlines(tradingPairCode: string): Promise<CandlestickType> {
   const tradingPairCodeUppercase = tradingPairCode.toUpperCase();
   const getUIKlinesAPIURL: string = `https://api.binance.com/api/v3/uiKlines?symbol=${tradingPairCodeUppercase}&interval=1d&limit=100`;
-  const data = await fetch(getUIKlinesAPIURL);
-  const result = await data.json();
-  return {
-    klines: result.map((element: string[]): KlineType => {
-      return {
-        close: Number(element[4]),
-        high: Number(element[2]),
-        low: Number(element[3]),
-        open: Number(element[1]),
-        time: convertDate(element[0]),
-      };
-    }),
-  };
+  try {
+    const response = await fetch(getUIKlinesAPIURL);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return {
+      klines: result.map((element: string[]): KlineType => {
+        return {
+          close: Number(element[4]),
+          high: Number(element[2]),
+          low: Number(element[3]),
+          open: Number(element[1]),
+          time: convertDate(element[0]),
+        };
+      }),
+    };
+  } catch (error) {
+    console.error("Error fetching UI Klines:", error);
+    return { klines: [] };
+  }
 }
+
 const SupportedTradingPairs: TradingPairType[] = [
   {
     baseCurrencyName: "Bitcoin",
