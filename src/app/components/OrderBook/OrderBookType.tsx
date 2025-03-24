@@ -1,5 +1,6 @@
 import { createOrderBookItem, OrderBookItemType } from "./OrderBookItemType";
 import { TradingPairType } from "../../Models/TradingPairType"
+
 export interface OrderBookType {
   bids: OrderBookItemType[];
   asks: OrderBookItemType[];
