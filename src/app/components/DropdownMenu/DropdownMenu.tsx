@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { DropdownMenuType } from "./DropdownMenuType";
+import { TradingPairType } from "../../Models/TradingPairType";
 
-export default function DropdownMenu() {
+const DropdownMenu: React.FC<DropdownMenuType> = ({ options, action }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const handleClick = (item: string) => {
-    console.log(`Clicked on: ${item}`);
+  const handleClick = (item: TradingPairType) => {
+    action(item);
+    setIsOpen (false);
   };
 
   return (
@@ -47,52 +50,24 @@ export default function DropdownMenu() {
             tabIndex={-1}
           >
             <div className="py-1" role="none">
-              <a
-                href="#"
-                className="block px-4 py-2 text-xs text-gray-700"
-                role="menuitem"
-                tabIndex={-1}
-                id="menu-item-0"
-                onClick={() => handleClick("BTC/USDT")}
-              >
-                BTC/USDT
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-xs text-gray-700"
-                role="menuitem"
-                tabIndex={-1}
-                id="menu-item-1"
-                onClick={() => handleClick("ETH/USDT")}
-              >
-                ETH/USDT
-              </a>
-              <a
-                href="#"
-                className="block px-4 py-2 text-xs text-gray-700"
-                role="menuitem"
-                tabIndex={-1}
-                id="menu-item-2"
-                onClick={() => handleClick("SOL/USDT")}
-              >
-                SOL/USDT
-              </a>
-              <form method="POST" action="#" role="none">
-                <button
-                  type="submit"
-                  className="block w-full px-4 py-2 text-left text-xs text-gray-700"
+              {options.map((option) => (
+                <a
+                  key={option.pairCode}
+                  className="block px-4 py-2 text-xs text-gray-700"
                   role="menuitem"
                   tabIndex={-1}
-                  id="menu-item-3"
-                  onClick={() => handleClick("ADA/USDT")}
+                  id="menu-item-0"
+                  onClick={() => handleClick(option)}
                 >
-                  ADA/USDT
-                </button>
-              </form>
+                  {option.baseCurrency + "/" + option.exchangeCurrency}
+                </a>
+              ))}
             </div>
           </div>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default DropdownMenu;
