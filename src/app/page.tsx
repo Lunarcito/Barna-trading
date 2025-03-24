@@ -1,26 +1,15 @@
 "use client";
 
 import OHLCV from "./components/OHLCV/OHLCV";
-import {
-  createOHLCV,
-  OHLCVType,
-  emptyOHLCV,
-} from "./components/OHLCV/OHLCVType";
+import { createOHLCV, OHLCVType, emptyOHLCV } from "./components/OHLCV/OHLCVType";
 import OrderBook from "./components/OrderBook/OrderBook";
-import {
-  OrderBookType,
-  createOrderBook,
-} from "./components/OrderBook/OrderBookType";
+import { OrderBookType, createOrderBook } from "./components/OrderBook/OrderBookType";
 import useWebSocket from "./Network/UseWebSocket";
 import { useEffect, useState, useCallback } from "react";
 import { emptyTrading, TradingPairType } from "./Models/TradingPairType";
 import DropdownMenu from "./components/DropdownMenu/DropdownMenu";
 import ChartComponent from "./components/CandleStick/CandleStick";
-import {
-  CandlestickType,
-  convertDate,
-  KlineType,
-} from "./components/CandleStick/CandleStickType";
+import { CandlestickType, convertDate, KlineType} from "./components/CandleStick/CandleStickType";
 
 async function getuiKlines(tradingPairCode: string): Promise<CandlestickType> {
   const tradingPairCodeUppercase = tradingPairCode.toUpperCase();
@@ -90,6 +79,8 @@ export default function Home() {
     klines: [],
   });
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   function handleSelection(value: TradingPairType) {
     setSelectedTradingPairType(value);
   }
@@ -104,6 +95,7 @@ export default function Home() {
         setCandlestickType(klinesValue);
       } catch (error) {
         console.error(error);
+        setErrorMessage("Failed to load candlestick data. Please try again.");
       }
     };
     fetchKlines();
@@ -140,6 +132,8 @@ export default function Home() {
           />
         </div>
       </div>
+      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+
       <OHLCV data={OHLCVType.data} tradingPair={selectedTradingPairType} />
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="p-4 col-start-1 col-end-3 ">
