@@ -1,21 +1,33 @@
 "use client";
 
 import OHLCV from "./components/OHLCV/OHLCV";
-import {
-  createOHLCV,
-  OHLCVType,
-  emptyOHLCV,
-} from "./components/OHLCV/OHLCVType";
+import { createOHLCV, OHLCVType, emptyOHLCV } from "./components/OHLCV/OHLCVType";
 import OrderBook from "./components/OrderBook/OrderBook";
-import {
-  OrderBookType,
-  createOrderBook,
-} from "./components/OrderBook/OrderBookType";
+import { OrderBookType, createOrderBook } from "./components/OrderBook/OrderBookType";
 import useWebSocket from "./Network/UseWebSocket";
-import { useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { emptyTrading, TradingPairType } from "./Models/TradingPairType";
 import DropdownMenu from "./components/DropdownMenu/DropdownMenu";
+import ChartComponent from "./components/CandleStick/CandleStick";
+import { CandlestickType, convertDate, KlineType } from "./components/CandleStick/CandleStickType";
 
+async function getuiKlines(tradingPairCode: string): Promise<CandlestickType> {
+  const tradingPairCodeUppercase = tradingPairCode.toUpperCase();
+  const getUIKlinesAPIURL: string = `https://api.binance.com/api/v3/uiKlines?symbol=${tradingPairCodeUppercase}&interval=1d&limit=100`;
+  const data = await fetch(getUIKlinesAPIURL);
+  const result = await data.json();
+  return {
+    klines: result.map((element: string[]): KlineType => {
+      return {
+        close: Number(element[4]),
+        high: Number(element[2]),
+        low: Number(element[3]),
+        open: Number(element[1]),
+        time: convertDate(element[0]),
+      };
+    }),
+  };
+}
 const SupportedTradingPairs: TradingPairType[] = [
   {
     baseCurrencyName: "Bitcoin",
@@ -54,34 +66,45 @@ export default function Home() {
 
   const [selectedTradingPairType, setSelectedTradingPairType] =
     useState<TradingPairType>(SupportedTradingPairs[0]);
+  const [candlestickType, setCandlestickType] = useState<CandlestickType>({
+    klines: [],
+  });
 
   function handleSelection(value: TradingPairType) {
     setSelectedTradingPairType(value);
   }
-  const handleOHLCVData = useCallback(
-    (data: { [key: string]: string }) => {
-      const value = createOHLCV(data, selectedTradingPairType);
-      setOHLCVType(value);
-    },
-    [selectedTradingPairType]
-  );
 
-  const handleOrderBookData = useCallback(
+  useEffect(() => {
+    setCandlestickType({ klines: [] });
+
+    const fetchKlines = async () => {
+      try {
+        const klinesValue = await getuiKlines(selectedTradingPairType.pairCode);
+        console.log(klinesValue);
+        setCandlestickType(klinesValue);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchKlines();
+  }, [selectedTradingPairType]);
+
+  const handleWebSocketData = useCallback(
     (data: { [key: string]: string }) => {
-      const value = createOrderBook(data, selectedTradingPairType, "");
-      setOrderBookType(value);
+      if (data.e === "depthUpdate") {
+        const value = createOrderBook(data, selectedTradingPairType, "");
+        setOrderBookType(value);
+      } else {
+        const value = createOHLCV(data, selectedTradingPairType);
+        setOHLCVType(value);
+      }
     },
     [selectedTradingPairType]
   );
 
   useWebSocket(
-    `wss://stream.binance.com:9443/ws/${selectedTradingPairType.pairCode}@ticker`,
-    handleOHLCVData
-  );
-
-  useWebSocket(
-    `wss://stream.binance.com:9443/ws/${selectedTradingPairType.pairCode}@depth`,
-    handleOrderBookData
+    `wss://stream.binance.com:9443/ws/${selectedTradingPairType.pairCode}@ticker/${selectedTradingPairType.pairCode}@depth`,
+    handleWebSocketData
   );
 
   return (
@@ -100,7 +123,7 @@ export default function Home() {
       <OHLCV data={OHLCVType.data} tradingPair={selectedTradingPairType} />
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="p-4 col-start-1 col-end-3 ">
-          <h3>Item 3</h3>
+          <ChartComponent klines={candlestickType.klines} />
         </div>
         <div className="p-4 md:col-start-3">
           <OrderBook

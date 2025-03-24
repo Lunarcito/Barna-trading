@@ -12,7 +12,7 @@ const DropdownMenu: React.FC<DropdownMenuType> = ({ options, action }) => {
   };
   const handleClick = (item: TradingPairType) => {
     action(item);
-    setIsOpen (false);
+    setIsOpen(false);
   };
 
   return (
