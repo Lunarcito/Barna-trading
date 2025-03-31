@@ -1,23 +1,23 @@
 export function formatMoney(number: string): string {
-  if (number != null) {
+  if (number != null && !isNaN(Number(number))) {
     return Number(number)
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  return "";
-}
-
-export function formatPercentage(number: string): string {
-  if (number != null) {
-    return Number(number).toFixed(2) + "%";
-  }
-  return "";
+  return "0.00";
 }
 
 export function formatDecimal(number: string): string {
-  if (number != null) {
+  if (number != null && !isNaN(Number(number))) {
     return Number(number).toFixed(5);
   }
-  return "";
+  return "0.00000";
+}
+
+export function formatPercentage(number: string): string {
+  if (number != null && !isNaN(Number(number))) {
+    return Number(number).toFixed(2) + "%";
+  }
+  return "0.00%";
 }
