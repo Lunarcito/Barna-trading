@@ -1,15 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import OrderBookLastValue from '../OrderBook/OrderBookLastValue';
-import { formatMoney } from '../../utils/Formatter';
+import { render, screen } from "@testing-library/react";
+import OrderBookLastValue from "../OrderBook/OrderBookLastValue";
+import { formatMoney } from "../../utils/Formatter";
 
-jest.mock('../../utils/Formatter', () => ({
-  formatMoney: jest.fn(),
+jest.mock("../../utils/Formatter", () => ({
+    formatMoney: jest.fn(),
 }));
 
-describe('OrderBookLastValue', () => {
-  it('debería renderizar el valor formateado correctamente', () => {
-    const mockValue = '1000';
-    const formattedValue = '$1,000.00';
+describe("OrderBookLastValue", () => {
+    
+    it("debería renderizar el valor formateado correctamente", () => {
+    const mockValue = "1000";
+    const formattedValue = "$1,000.00";
 
     formatMoney.mockReturnValue(formattedValue);
 

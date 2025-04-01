@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { DropdownMenuType } from "./DropdownMenuType";
-import { TradingPairType } from "../../Models/TradingPairType";
+import { useState } from 'react';
+import { DropdownMenuType } from './DropdownMenuType';
+import { TradingPairType } from '../../Models/TradingPairType';
 
 const DropdownMenu: React.FC<DropdownMenuType> = ({ options, action }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ const DropdownMenu: React.FC<DropdownMenuType> = ({ options, action }) => {
             type="button"
             className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-1 text-xs font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50"
             id="menu-button"
-            aria-expanded={isOpen ? "true" : "false"}
+            aria-expanded={isOpen ? 'true' : 'false'}
             aria-haspopup="true"
             onClick={toggleDropdown}
           >
@@ -59,7 +59,7 @@ const DropdownMenu: React.FC<DropdownMenuType> = ({ options, action }) => {
                   id="menu-item-0"
                   onClick={() => handleClick(option)}
                 >
-                  {option.baseCurrency + "/" + option.exchangeCurrency}
+                  {option.baseCurrency + '/' + option.exchangeCurrency}
                 </a>
               ))}
             </div>

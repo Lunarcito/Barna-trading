@@ -1,6 +1,6 @@
-import { TradingPairType } from "../../Models/TradingPairType";
+import { TradingPairType } from '../../Models/TradingPairType';
 
 export interface DropdownMenuType {
-  options: TradingPairType[],
-  action: (value: TradingPairType) => void
+  options: TradingPairType[];
+  action: (value: TradingPairType) => void;
 }

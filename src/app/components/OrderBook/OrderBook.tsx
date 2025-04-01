@@ -1,7 +1,7 @@
-import OrderBookItem from "./OrderBookItem";
-import OrderBookHeader from "./OrderBookHeader";
-import OrderBookLastValue from "./OrderBookLastValue";
-import { OrderBookType } from "./OrderBookType";
+import OrderBookItem from './OrderBookItem';
+import OrderBookHeader from './OrderBookHeader';
+import OrderBookLastValue from './OrderBookLastValue';
+import { OrderBookType } from './OrderBookType';
 
 const OrderBook: React.FC<OrderBookType> = ({
   asks,

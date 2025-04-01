@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import OrderBookItem, { calculateTotal } from '../OrderBook/OrderBookItem';
 
 describe('OrderBookItem', () => {
-
   it('renders price, quantity, and total correctly', () => {
     const price = '10.00';
     const quantity = '2';
@@ -31,9 +30,8 @@ describe('OrderBookItem', () => {
     const price = '5.00';
     const quantity = '3';
     const expectedTotal = '15.00';
-  
+
     const result = calculateTotal(price, quantity);
     expect(result).toEqual(expectedTotal);
   });
-
 });

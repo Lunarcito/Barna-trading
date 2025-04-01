@@ -7,9 +7,9 @@ export interface TradingPairType {
 
 export function emptyTrading(): TradingPairType {
   return {
-    baseCurrencyName: "",
-    baseCurrency: "",
-    exchangeCurrency: "",
-    pairCode: "",
+    baseCurrencyName: '',
+    baseCurrency: '',
+    exchangeCurrency: '',
+    pairCode: '',
   };
 }

@@ -1,15 +1,26 @@
-"use client";
+'use client';
 
-import OHLCV from "./components/OHLCV/OHLCV";
-import { createOHLCV, OHLCVType, emptyOHLCV } from "./components/OHLCV/OHLCVType";
-import OrderBook from "./components/OrderBook/OrderBook";
-import { OrderBookType, createOrderBook } from "./components/OrderBook/OrderBookType";
-import useWebSocket from "./Network/UseWebSocket";
-import { useEffect, useState, useCallback } from "react";
-import { emptyTrading, TradingPairType } from "./Models/TradingPairType";
-import DropdownMenu from "./components/DropdownMenu/DropdownMenu";
-import ChartComponent from "./components/CandleStick/CandleStick";
-import { CandlestickType, convertDate, KlineType} from "./components/CandleStick/CandleStickType";
+import OHLCV from './components/OHLCV/OHLCV';
+import {
+  createOHLCV,
+  OHLCVType,
+  emptyOHLCV,
+} from './components/OHLCV/OHLCVType';
+import OrderBook from './components/OrderBook/OrderBook';
+import {
+  OrderBookType,
+  createOrderBook,
+} from './components/OrderBook/OrderBookType';
+import useWebSocket from './Network/UseWebSocket';
+import { useEffect, useState, useCallback } from 'react';
+import { emptyTrading, TradingPairType } from './Models/TradingPairType';
+import DropdownMenu from './components/DropdownMenu/DropdownMenu';
+import ChartComponent from './components/CandleStick/CandleStick';
+import {
+  CandlestickType,
+  convertDate,
+  KlineType,
+} from './components/CandleStick/CandleStickType';
 
 async function getuiKlines(tradingPairCode: string): Promise<CandlestickType> {
   const tradingPairCodeUppercase = tradingPairCode.toUpperCase();
@@ -32,35 +43,35 @@ async function getuiKlines(tradingPairCode: string): Promise<CandlestickType> {
       }),
     };
   } catch (error) {
-    console.error("Error fetching UI Klines:", error);
+    console.error('Error fetching UI Klines:', error);
     return { klines: [] };
   }
 }
 
 const SupportedTradingPairs: TradingPairType[] = [
   {
-    baseCurrencyName: "Bitcoin",
-    baseCurrency: "BTC",
-    exchangeCurrency: "USDT",
-    pairCode: "btcusdt",
+    baseCurrencyName: 'Bitcoin',
+    baseCurrency: 'BTC',
+    exchangeCurrency: 'USDT',
+    pairCode: 'btcusdt',
   },
   {
-    baseCurrencyName: "Ethereum",
-    baseCurrency: "ETH",
-    exchangeCurrency: "USDT",
-    pairCode: "ethusdt",
+    baseCurrencyName: 'Ethereum',
+    baseCurrency: 'ETH',
+    exchangeCurrency: 'USDT',
+    pairCode: 'ethusdt',
   },
   {
-    baseCurrencyName: "Solana",
-    baseCurrency: "SOL",
-    exchangeCurrency: "USDT",
-    pairCode: "solusdt",
+    baseCurrencyName: 'Solana',
+    baseCurrency: 'SOL',
+    exchangeCurrency: 'USDT',
+    pairCode: 'solusdt',
   },
   {
-    baseCurrencyName: "Cardano",
-    baseCurrency: "ADA",
-    exchangeCurrency: "USDT",
-    pairCode: "adausdt",
+    baseCurrencyName: 'Cardano',
+    baseCurrency: 'ADA',
+    exchangeCurrency: 'USDT',
+    pairCode: 'adausdt',
   },
 ];
 
@@ -70,7 +81,7 @@ export default function Home() {
     asks: [],
     bids: [],
     tradingPair: emptyTrading(),
-    lastPrice: "",
+    lastPrice: '',
   });
 
   const [selectedTradingPairType, setSelectedTradingPairType] =
@@ -95,7 +106,7 @@ export default function Home() {
         setCandlestickType(klinesValue);
       } catch (error) {
         console.error(error);
-        setErrorMessage("Failed to load candlestick data. Please try again.");
+        setErrorMessage('Failed to load candlestick data. Please try again.');
       }
     };
     fetchKlines();
@@ -103,8 +114,8 @@ export default function Home() {
 
   const handleWebSocketData = useCallback(
     (data: { [key: string]: string }) => {
-      if (data.e === "depthUpdate") {
-        const value = createOrderBook(data, selectedTradingPairType, "");
+      if (data.e === 'depthUpdate') {
+        const value = createOrderBook(data, selectedTradingPairType, '');
         setOrderBookType(value);
       } else {
         const value = createOHLCV(data, selectedTradingPairType);

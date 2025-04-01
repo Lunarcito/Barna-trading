@@ -1,4 +1,4 @@
-import { emptyTrading, TradingPairType } from "../../Models/TradingPairType";
+import { emptyTrading, TradingPairType } from '../../Models/TradingPairType';
 
 export interface OHLCVType {
   data: {
@@ -18,13 +18,13 @@ export function createOHLCV(
   trading: TradingPairType
 ): OHLCVType {
   try {
-    const lastPrice = input["c"];
-    const priceChange = input["p"];
-    const priceChangePercent = input["P"];
-    const highPrice = input["h"];
-    const lowPrice = input["l"];
-    const tradedBaseVolume = input["v"];
-    const totalTradedAssetVolume = input["q"];
+    const lastPrice = input['c'];
+    const priceChange = input['p'];
+    const priceChangePercent = input['P'];
+    const highPrice = input['h'];
+    const lowPrice = input['l'];
+    const tradedBaseVolume = input['v'];
+    const totalTradedAssetVolume = input['q'];
     return {
       data: {
         lastPrice,
@@ -38,7 +38,7 @@ export function createOHLCV(
       tradingPair: trading,
     };
   } catch (error) {
-    console.error("Error parsing OHLCVType", error);
+    console.error('Error parsing OHLCVType', error);
   }
   return emptyOHLCV();
 }
@@ -46,13 +46,13 @@ export function createOHLCV(
 export function emptyOHLCV(): OHLCVType {
   return {
     data: {
-      lastPrice: "",
-      priceChange: "",
-      priceChangePercent: "",
-      highPrice: "",
-      lowPrice: "",
-      tradedBaseVolume: "",
-      totalTradedAssetVolume: "",
+      lastPrice: '',
+      priceChange: '',
+      priceChangePercent: '',
+      highPrice: '',
+      lowPrice: '',
+      tradedBaseVolume: '',
+      totalTradedAssetVolume: '',
     },
     tradingPair: emptyTrading(),
   };
