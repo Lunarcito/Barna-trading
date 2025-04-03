@@ -1,6 +1,11 @@
 import { createOrderBookItem, OrderBookItemType } from './OrderBookItemType';
 import { TradingPairType } from '../../Models/TradingPairType';
 
+interface OrderBookInput {
+  a: OrderBookItemType[];
+  b: OrderBookItemType[];
+}
+
 export interface OrderBookType {
   bids: OrderBookItemType[];
   asks: OrderBookItemType[];
@@ -9,7 +14,7 @@ export interface OrderBookType {
 }
 
 export function createOrderBook(
-  input: { [key: string]: any },
+  input: OrderBookInput,
   tradingPair: TradingPairType,
   lastPrice: string
 ): OrderBookType {
