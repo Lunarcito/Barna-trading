@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { createChart, CandlestickSeries, IChartApi } from 'lightweight-charts';
+import {
+  createChart,
+  CandlestickSeries,
+  IChartApi,
+  CrosshairMode,
+} from 'lightweight-charts';
 import { CandlestickType } from '../CandleStick/CandleStickType';
 
 const ChartComponent: React.FC<CandlestickType> = ({ klines }) => {
@@ -10,48 +15,92 @@ const ChartComponent: React.FC<CandlestickType> = ({ klines }) => {
     if (!chartContainerRef.current) return;
 
     const chart = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: chartContainerRef.current.clientHeight,
       layout: {
-        textColor: 'black',
-        background: { type: 'solid', color: 'white' },
+        background: { type: 'solid', color: '#ffffff' },
+        textColor: '#191919',
+        fontSize: 12,
       },
-      height: 760,
+      grid: {
+        vertLines: { color: '#eee' },
+        horzLines: { color: '#eee' },
+      },
+      crosshair: {
+        mode: CrosshairMode.Normal,
+        vertLine: {
+          color: '#8c8c8c',
+          width: 1,
+          style: 0,
+          labelBackgroundColor: '#f2f2f2',
+        },
+        horzLine: {
+          color: '#8c8c8c',
+          width: 1,
+          style: 0,
+          labelBackgroundColor: '#f2f2f2',
+        },
+      },
+      rightPriceScale: {
+        borderVisible: false,
+      },
+      timeScale: {
+        borderVisible: false,
+        timeVisible: true,
+        secondsVisible: false,
+      },
     });
+
     chartRef.current = chart;
 
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor: '#26a69a',
       downColor: '#ef5350',
-      borderVisible: false,
+      borderUpColor: '#26a69a',
+      borderDownColor: '#ef5350',
       wickUpColor: '#26a69a',
       wickDownColor: '#ef5350',
     });
-    const seriesData = klines.map((kline) => {
-      return {
-        close: kline.close,
+
+    candlestickSeries.setData(
+      klines.map((kline) => ({
+        open: kline.open,
         high: kline.high,
         low: kline.low,
-        open: kline.open,
+        close: kline.close,
         time: kline.time,
-      };
-    });
-    candlestickSeries.setData(seriesData);
+      }))
+    );
+
     chart.timeScale().fitContent();
 
-    const handleResize = () => {
-      if (chartContainerRef.current) {
-        chart.applyOptions({ width: chartContainerRef.current.clientWidth });
+    const resizeObserver = new ResizeObserver(() => {
+      if (chartContainerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+          height: chartContainerRef.current.clientHeight,
+        });
+        chartRef.current.timeScale().fitContent();
       }
-    };
-    window.addEventListener('resize', handleResize);
+    });
+
+    resizeObserver.observe(chartContainerRef.current);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
       chart.remove();
     };
   }, [klines]);
 
   return (
-    <div ref={chartContainerRef} style={{ width: '100%', height: '700px' }} />
+    <div
+      ref={chartContainerRef}
+      style={{
+        width: '100%',
+        height: '700px',
+        position: 'relative',
+      }}
+    />
   );
 };
 
